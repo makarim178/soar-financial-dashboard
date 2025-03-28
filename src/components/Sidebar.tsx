@@ -16,7 +16,7 @@ export default function Sidebar() {
   useEffect(() => {
     const currentNav = navLinks.find(item => item.route === pathname);
     if (currentNav) {
-      setSelectedLabel(currentNav.label);
+      setSelectedLabel(currentNav.title);
     }
   }, [pathname, setSelectedLabel]);
 
@@ -25,9 +25,9 @@ export default function Sidebar() {
       <aside className={`bg-white border-[#E6EFF5] border-r-1 text-[#343C6A] w-[250px] fixed inset-y-0 left-0 transform ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } md:translate-x-0 transition-transform duration-300 ease-in-out z-40`}>
-        <div className="flex align-middle p-6">
+        <div className="h-[100px] flex items-center p-6">
           <SoarIcon fill='dark' width={35} height={35} />
-          <h1 className="text-2xl text-[#343C6A] font-extrabold pl-2">Soar Task</h1>
+          <h1 className="text-2xl text-[#343C6A] font-extrabold pl-[10px]">Soar Task</h1>
         </div>
         <nav className="mt-6">
           <ul>
@@ -50,7 +50,7 @@ export default function Sidebar() {
                     } hover:text-[#232323]`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="h-5 w-5 mr-6">
+                    <span className="h-5 w-5 mr-[26px]">
                       <DynamicComponent fill={ pathname === item.route ? 'dark' : 'light' }/>
                     </span>
                     {item.label}
