@@ -27,7 +27,8 @@ const ExpenseChart = () => {
       arcs.forEach((arc: ArcElement, i: number) => {
         const value = dataset.data[i];
         const scale = 1.35 - ((Number(value) ?? 0) / (Number(maxValue) || 1)) * 0.25;
-        arc.outerRadius = chart.getDatasetMeta(0)?.total * scale;
+        const total = dataset.data.reduce((sum: number, val) => sum + (Number(val) || 0), 0);
+        arc.outerRadius = total * scale;
       });
     },
     afterDraw: (chart: ChartJS) => {
@@ -36,7 +37,7 @@ const ExpenseChart = () => {
       
       const meta = chart.getDatasetMeta(0);
       const arcs: ArcElement[] = meta.data as ArcElement[];
-      const total = meta?.total;
+      const total = data.datasets[0].data.reduce((sum: number, val) => sum + (Number(val) || 0), 0);
 
       arcs.forEach((arc: ArcElement, i:number) => {
         const value = Number(data.datasets[0]?.data[i] ?? 0);

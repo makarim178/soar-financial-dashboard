@@ -2,7 +2,7 @@ import { fillIconColor } from "@Utils/helper"
 
 const CreditCardIcon = ({ fill="light", width = 17.5, height = 17.5 }: IconProps) => {
   return (
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width} height={height} viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M22.9608 7.16339V6.80772C22.9608 5.17271 21.6306 3.8425 19.9956 3.8425H2.96522C1.33016 3.84255 0 5.17271 0 6.80772V7.16339H22.9608Z" fill={fillIconColor(fill)}/>
         <path d="M13.5651 16.7017C13.5651 15.1636 14.0598 13.7017 14.9731 12.4968H0V16.6331C0 18.2681 1.33016 19.5983 2.96522 19.5983H14.1911C13.7813 18.7007 13.5651 17.7179 13.5651 16.7017ZM11.4804 15.803H8.92125V14.2796H11.4804V15.803ZM3.41545 14.2796H7.39781V15.803H3.41545V14.2796Z" fill={fillIconColor(fill)}/>
         <path d="M16.5547 10.9734C17.7165 10.1606 19.0967 9.72262 20.5443 9.72262C21.3822 9.72262 22.1973 9.86974 22.9608 10.1509V8.68689H0V10.9734H16.5547Z" fill={fillIconColor(fill)}/>

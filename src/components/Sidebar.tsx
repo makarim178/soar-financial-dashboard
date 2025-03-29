@@ -32,10 +32,10 @@ export default function Sidebar() {
         <nav className="mt-6">
           <ul>
             {navLinks.map((item, index) => {
-              const DynamicComponent = dynamic(() => import(`@/src/components/svgIcons/${item.component}`), {
-                loading: () => <DefaultLoader />,
-                ssr: false
-              });
+              const DynamicComponent = dynamic<IconProps>(() => import(`@/src/components/svgIcons/${item.component}`), {
+                  ssr: false,
+                  loading: () => <DefaultLoader />
+                });
               return (
                 <li key={item.label + index}
                   className="flex"
@@ -51,7 +51,7 @@ export default function Sidebar() {
                     onClick={() => setIsOpen(false)}
                   >
                     <span className="h-5 w-5 mr-[26px]">
-                      <DynamicComponent fill={ pathname === item.route ? 'dark' : 'light' }/>
+                      <DynamicComponent fill={pathname === item.route ? 'dark' : 'light'} />
                     </span>
                     {item.label}
                   </Link>

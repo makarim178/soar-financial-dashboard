@@ -1,10 +1,12 @@
-import BalanceCard from './dashboard/BalanceCard';
 import TransactionHistory from './dashboard/TransactionHistory';
 import SpendingChart from './dashboard/SpendingChart';
 import MyCards from './cards/MyCards';
 import ExpenseChart from './dashboard/ExpenseChart';
 import BalanceHistoryChart from './dashboard/BalanceHistoryChart';
 import QuickTransfer from './dashboard/QuickTransfer';
+import { Suspense } from 'react';
+import DefaultLoader from './defaultLoader/DefaultLoader';
+import { QuickTransferProvider } from '../context/QuickTransferContext';
 
 export default function Dashboard() {
   const transactions: TransactionType[] = [
@@ -50,7 +52,11 @@ export default function Dashboard() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6">
           <div className="md:col-span-1 lg:col-span-5">
-            <QuickTransfer />
+              <Suspense fallback={<DefaultLoader />}>
+                <QuickTransferProvider>
+                    <QuickTransfer />
+                </QuickTransferProvider>
+              </Suspense>
           </div>
           <div className="md:col-span-2 lg:col-span-7">
             <BalanceHistoryChart />

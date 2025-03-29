@@ -16,7 +16,7 @@ function readData() {
 }
 
 // Helper function to write data
-function writeData(data) {
+function writeData(data: { contacts: ContactType[]; transfers: TransferDataType[] }) {
   try {
     fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
     return true;
@@ -33,21 +33,16 @@ export async function GET(request: Request) {
     const limit = parseInt(searchParams.get('limit') || '3');
     const offset = parseInt(searchParams.get('offset') || '0');
     
-    const data = readData();
-    
-    // Sort contacts by last transfer date (most recent first)
-    const sortedContacts = data.contacts.sort((a, b) => 
-      new Date(b.lastTransfer).getTime() - new Date(a.lastTransfer).getTime()
-    );
+    const { contacts } = readData();
     
     // Paginate contacts
-    const paginatedContacts = sortedContacts.slice(offset, offset + limit);
-    const hasMore = offset + limit < sortedContacts.length;
+    const paginatedContacts = contacts.slice(offset, offset + limit);
+    const hasMore = offset + limit < contacts.length;
     
     return NextResponse.json({
       contacts: paginatedContacts,
       hasMore,
-      total: sortedContacts.length
+      total: contacts.length
     });
   } catch (error) {
     console.error('Error in quick-transfer GET API route:', error);
@@ -74,16 +69,13 @@ export async function POST(request: Request) {
     const data = readData();
     
     // Find the contact
-    const contactIndex = data.contacts.findIndex(c => c.id === contactId);
+    const contactIndex = data.contacts.findIndex((c: ContactType) => c.id === contactId);
     if (contactIndex === -1) {
       return NextResponse.json(
         { error: 'Contact not found' },
         { status: 404 }
       );
     }
-    
-    // Update the contact's last transfer date
-    data.contacts[contactIndex].lastTransfer = new Date().toISOString().split('T')[0];
     
     // Add the transfer to the transfers array
     const newTransfer = {

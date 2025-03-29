@@ -12,7 +12,8 @@ import {
   Tooltip,
   Filler,
   Legend,
-  ChartOptions
+  ChartOptions,
+  ScriptableContext
 } from 'chart.js';
 
 // Register ChartJS components
@@ -62,7 +63,7 @@ export default function BalanceHistoryChart() {
         label: 'Balance',
         data: data?.balances || [],
         borderColor: '#396AFF',
-        backgroundColor: (context) => {
+        backgroundColor: (context: ScriptableContext<'line'>) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
           gradient.addColorStop(0, 'rgba(57, 106, 255, 0.5)');
@@ -115,7 +116,7 @@ export default function BalanceHistoryChart() {
         grid: {
           display: true,
           color: '#F5F7FA',
-          drawBorder: false,
+          drawTicks: false,
         },
         ticks: {
           color: '#718EBF',
@@ -131,7 +132,7 @@ export default function BalanceHistoryChart() {
         beginAtZero: true,
         grid: {
           color: '#F5F7FA',
-          drawBorder: false,
+          drawTicks: false,
         },
         border: {
           display: false,

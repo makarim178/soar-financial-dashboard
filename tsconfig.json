@@ -23,6 +23,7 @@
       "@Components/*": ["./src/components/*"],
       "@Constants/*": ["./src/constants/*"],
       "@Context/*": ["./src/context/*"],
+      "@Services/*": ["./src/services/*"],
       "@Utils/*": ["./src/utils/*"],
     }
   },

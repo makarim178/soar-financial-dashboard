@@ -4,36 +4,31 @@
       "id": 1,
       "name": "Livia Bator",
       "position": "CEO",
-      "avatar": "https://avatar.iran.liara.run/public/1",
-      "lastTransfer": "2025-03-28"
+      "avatar": "https://avatar.iran.liara.run/public/1"
     },
     {
       "id": 2,
       "name": "Randy Press",
       "position": "Director",
-      "avatar": "https://avatar.iran.liara.run/public/2",
-      "lastTransfer": "2025-03-28"
+      "avatar": "https://avatar.iran.liara.run/public/2"
     },
     {
       "id": 3,
       "name": "Workman",
       "position": "Designer",
-      "avatar": "https://avatar.iran.liara.run/public/3",
-      "lastTransfer": "2023-12-05"
+      "avatar": "https://avatar.iran.liara.run/public/3"
     },
     {
       "id": 4,
       "name": "Sarah Johnson",
       "position": "Developer",
-      "avatar": "https://avatar.iran.liara.run/public/4",
-      "lastTransfer": "2023-11-28"
+      "avatar": "https://avatar.iran.liara.run/public/4"
     },
     {
       "id": 5,
       "name": "Michael Chen",
-      "position": "Product Manager",
-      "avatar": "https://avatar.iran.liara.run/public/5",
-      "lastTransfer": "2023-11-20"
+      "position": "Manager",
+      "avatar": "https://avatar.iran.liara.run/public/5"
     }
   ],
   "transfers": [
@@ -48,6 +43,18 @@
       "contactId": 1,
       "amount": 30,
       "date": "2025-03-28T09:31:24.616Z"
+    },
+    {
+      "id": 1743240057541,
+      "contactId": 1,
+      "amount": 20,
+      "date": "2025-03-29T09:20:57.541Z"
+    },
+    {
+      "id": 1743241042248,
+      "contactId": 1,
+      "amount": 50,
+      "date": "2025-03-29T09:37:22.248Z"
     }
   ]
 }

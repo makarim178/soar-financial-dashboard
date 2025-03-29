@@ -1,8 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import CreditCardIcon from '../svgIcons/CreditCardIcon';
 import BankCard from './bankCard/BankCard';
 
 export default function MyCards() {
@@ -42,8 +40,8 @@ export default function MyCards() {
   return (
     <div className="w-full max-w-[730px] mx-auto md:col-span-2">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-[#343C6A]">My Cards</h2>
-        <Link href="/cards" className="text-[#343C6A] text-sm font-medium">See All</Link>
+        <h2 className="text-xl font-bold text-title">My Cards</h2>
+        <Link href="/cards" className="text-title text-sm font-medium">See All</Link>
       </div>
       
       <div className="relative" style={{ height: 'min(282px, 70vw)' }}>
