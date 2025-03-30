@@ -56,7 +56,7 @@ const QuickPay = ({ selectedContact }: { selectedContact: ContactType | null }) 
         }
       }
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-wrap flex:col md:flex-row items-center justify-between">
         <div>
             <label htmlFor="amount" className="text-base font-normal text-trans-date block mb-1">Write Amount</label>
         </div>
@@ -68,16 +68,16 @@ const QuickPay = ({ selectedContact }: { selectedContact: ContactType | null }) 
             value={amount}
             placeholder="525.50"
             onChange={(e) => setAmount(e.target.value)}
-            className="bg-transparent px-4 w-full outline-none text-[#343C6A] text-lg font-medium"
+            className="bg-transparent px-4 w-full outline-none text-title text-lg font-medium"
             />
         </div>
-        <div>
+        <div className="flex justify-center items-center">
             <button
-            onClick={handleTransfer}
-            disabled={isSubmitting || !selectedContact || !amount}
-            className="h-[50px] w-[125px] bg-soar-dark text-white rounded-full px-8 py-4 flex items-center disabled:opacity-70"
+              onClick={handleTransfer}
+              disabled={isSubmitting || !selectedContact || !amount}
+              className="h-[50px] bg-soar-dark text-white rounded-full px-8 md:px-4 lg:px-8 py-4 flex items-center disabled:opacity-70 cursor-pointer"
             >
-            <span className="mr-2 font-medium">Send</span>
+            <span className="mr-2 font-medium md:hidden lg:block">Send</span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transform rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
             </svg>

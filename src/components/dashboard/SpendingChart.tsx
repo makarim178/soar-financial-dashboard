@@ -2,31 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import DefaultLoader from '../defaultLoader/DefaultLoader';
-import { getChartData, chartOptions } from './charts/spendingChartConfig';
-import { WeeklyActivityData } from '@/src/types';
+import { getChartData as getSpendingChartData, chartOptions } from './charts';
+import { SpendingData } from '@/src/types';
 
-// Register ChartJS components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function SpendingChart() {
-  const [data, setData] = useState<WeeklyActivityData | null>(null);
+const SpendingChart = () => {
+  const [spendingData, setSpendingData] = useState<SpendingData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,11 +20,10 @@ export default function SpendingChart() {
         if (!response.ok) {
           throw new Error(`API returned ${response.status}: ${response.statusText}`);
         }
-        const weeklyData = await response.json();
-        setData(weeklyData);
+        const data = await response.json();
+        setSpendingData(data);
       } catch (error) {
-        console.error('Error fetching weekly activity data:', error);
-        // You could set an error state here if you want to display an error message
+        console.error('Error fetching spending data:', error);
       } finally {
         setLoading(false);
       }
@@ -51,16 +34,31 @@ export default function SpendingChart() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold mb-4 text-title">Weekly Activity</h3>
-      <div className="bg-white min-h-[325px] min-w-[325px] rounded-3xl shadow p-6">
+      <h2 className="text-xl font-semibold mb-4 text-title" id="spending-chart-heading">Spending Statistics</h2>
+      <div 
+        className="relative bg-white min-h-[325px] rounded-3xl shadow p-6 flex items-center justify-center"
+        aria-labelledby="spending-chart-heading"
+        tabIndex={0}
+      >
         {loading ? (
-          <div className="h-full flex items-center justify-center">
+          <div className="flex items-center justify-center" aria-live="polite" aria-busy="true">
             <DefaultLoader />
           </div>
         ) : (
-          <Bar data={getChartData(data)} options={chartOptions} />
+          <div 
+            className="w-full h-[280px]"
+            aria-label="Bar chart showing monthly spending statistics"
+            role="img"
+          >
+            <Bar 
+              data={getSpendingChartData(spendingData)} 
+              options={chartOptions} 
+            />
+          </div>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default SpendingChart;

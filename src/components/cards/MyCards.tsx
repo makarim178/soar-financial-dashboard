@@ -38,11 +38,30 @@ export default function MyCards() {
     }
   ]);
 
+  // Handle keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (scrollRef.current) {
+      if (e.key === 'ArrowRight') {
+        scrollRef.current.scrollLeft += 200;
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft') {
+        scrollRef.current.scrollLeft -= 200;
+        e.preventDefault();
+      }
+    }
+  };
+
   return (
     <div className="w-full max-w-[730px] mx-auto md:col-span-2">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-title">My Cards</h2>
-        <Link href="/cards" className="text-title text-sm font-medium">See All</Link>
+        <Link 
+          href="/credit-cards" 
+          className="text-title text-sm font-medium hover:font-bold"
+          aria-label="See all credit cards"
+        >
+          See All
+        </Link>
       </div>
       
       <div className="relative">
@@ -55,11 +74,20 @@ export default function MyCards() {
             overflowY: 'hidden'
           }}
           tabIndex={0}
+          role="region"
+          aria-label="Credit cards carousel"
+          aria-describedby="carousel-description"
+          onKeyDown={handleKeyDown}
         >
-          {cards.map((card) => (
-            <BankCard key={card.id} card={card} />
+          {cards.map((card, index) => (
+            <div key={card.id} aria-posinset={index + 1} aria-setsize={cards.length}>
+              <BankCard card={card} />
+            </div>
           ))}
         </div>
+        <p id="carousel-description" className="sr-only">
+          Use arrow keys to navigate between cards
+        </p>
       </div>
     </div>
   );

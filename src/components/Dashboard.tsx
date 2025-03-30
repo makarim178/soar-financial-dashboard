@@ -37,12 +37,19 @@ export default function Dashboard() {
     },
   ];
   return (
-    <>      
-      <div className='m-6 space-y-6'>
+    <main aria-label="Financial Dashboard" className='m-6 space-y-6'>
+      <h1 className="sr-only">Financial Dashboard</h1>
+      
+      <section aria-labelledby="cards-and-transactions-heading">
+        <h2 id="cards-and-transactions-heading" className="sr-only">Cards and Recent Transactions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <MyCards />
           <TransactionHistory transactions={transactions} />
         </div>
+      </section>
+      
+      <section aria-labelledby="charts-heading">
+        <h2 id="charts-heading" className="sr-only">Financial Charts</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <SpendingChart />
@@ -51,20 +58,27 @@ export default function Dashboard() {
             <ExpenseChart />
           </div>
         </div>
+      </section>
+      
+      <section aria-labelledby="transfers-and-balance-heading">
+        <h2 id="transfers-and-balance-heading" className="sr-only">Transfers and Balance History</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6">
           <div className="md:col-span-1 lg:col-span-5">
-              <Suspense fallback={<DefaultLoader />}>
-                <QuickTransferProvider>
-                    <QuickTransfer />
-                </QuickTransferProvider>
-              </Suspense>
+            <Suspense fallback={
+              <div aria-live="polite" aria-busy="true">
+                <DefaultLoader />
+              </div>
+            }>
+              <QuickTransferProvider>
+                <QuickTransfer />
+              </QuickTransferProvider>
+            </Suspense>
           </div>
           <div className="md:col-span-2 lg:col-span-7">
             <BalanceHistoryChart />
           </div>
         </div>
-        
-      </div>
-    </>
+      </section>
+    </main>
   );
 }

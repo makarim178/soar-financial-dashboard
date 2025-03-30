@@ -11,7 +11,7 @@ const Topbar = () => {
   return (
     <div className={`h-[100px] bg-white border-b border-[#E6EFF5] flex items-center justify-between px-4 md:px-6`}>    
         <div className="flex items-center">
-            <button className="md:hidden mr-4 p-2">
+            <button className="md:hidden mr-4 p-2 cursor-pointer">
                 <Image
                     src="/icons/mobile-menu-icon.svg"
                     width={18} height={18}
@@ -20,7 +20,7 @@ const Topbar = () => {
                 />
             </button>
             { selectedLabel
-                ? <h1 className="text-2xl text-[#343C6A] font-extrabold">{selectedLabel}</h1>
+                ? <h1 className="text-2xl text-title font-extrabold">{selectedLabel}</h1>
                 : <DefaultLoader />
             }
 

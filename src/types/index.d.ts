@@ -147,3 +147,14 @@ declare type ExpenseStatisticsData = {
     percentages: number[];
     colors: string[];
 }
+
+declare type SpendingData = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+  }[];
+};

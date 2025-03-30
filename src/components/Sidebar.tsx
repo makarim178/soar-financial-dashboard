@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import DefaultLoader from '@Components/defaultLoader/DefaultLoader';
 import SoarIcon from '@Components/svgIcons/SoarIcon';
 import { useSidebar } from '@Context/SidebarContext';
+import { IconProps } from '../types';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -22,12 +23,12 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className={`bg-white border-[#E6EFF5] border-r-1 text-[#343C6A] w-[250px] fixed inset-y-0 left-0 transform ${
+      <aside className={`bg-white border-[#E6EFF5] border-r-1 text-title w-[250px] fixed inset-y-0 left-0 transform ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } md:translate-x-0 transition-transform duration-300 ease-in-out z-40`}>
         <div className="h-[100px] flex items-center p-6">
           <SoarIcon fill='dark' width={35} height={35} />
-          <h1 className="text-2xl text-[#343C6A] font-extrabold pl-[10px]">Soar Task</h1>
+          <h1 className="text-2xl text-title font-extrabold pl-[10px]">Soar Task</h1>
         </div>
         <nav className="mt-6">
           <ul>

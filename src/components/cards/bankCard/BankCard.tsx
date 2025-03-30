@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { CardDataType } from '@/src/types';
 
 const BankCard = ({ card }: { card: CardDataType }) => {
-  const textColor = useMemo(() => card.isDark ? 'text-white' : 'text-[#343C6A]', [card.isDark])
+  const textColor = useMemo(() => card.isDark ? 'text-white' : 'text-title', [card.isDark])
   const cardTypeSvg = useMemo(() => {
     if (card.cardType === 'visa') return 'visa-icon';
     if (card.cardType === 'mastercard') return card.isDark ? 'master-card-icon' : 'master-card-icon-dark';
@@ -15,7 +15,7 @@ const BankCard = ({ card }: { card: CardDataType }) => {
       className={`rounded-3xl flex flex-col flex-shrink-0 justify-around snap-center border md:w-[350px] md:h-[235px] w-[265px] h-[170px] ${
         card.isDark 
           ? 'bg-gradient-to-r from-[#5B5A6F] to-[#000000]' 
-          : 'bg-white border-1 border-soar-border-gray text-[#343C6A]'
+          : 'bg-white border-1 border-soar-border-gray text-title'
       }`}
     >
       <div className={`flex flex-col justify-between p-5`}>
