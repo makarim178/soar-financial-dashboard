@@ -1,3 +1,4 @@
+import { TransactionType } from "@/src/types";
 import { transactionSourceColors } from "@Constants/transactions";
 import { formatColors, formatCurrency } from "@Utils/helper";
 import Image from "next/image";

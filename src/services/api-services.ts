@@ -1,3 +1,5 @@
+import { QTransferGetApiType } from "../types";
+
 export const fetchQuickTransferData = async ({ limit = 3, offset = 0 }: QTransferGetApiType) => {
     try {
         const response = await fetch(`/api/quick-transfer?limit=${limit}&offset=${offset}`);
@@ -10,8 +12,5 @@ export const fetchQuickTransferData = async ({ limit = 3, offset = 0 }: QTransfe
       } catch (error) {
         console.error('Error fetching weekly activity data:', error);
         return error;
-        // You could set an error state here if you want to display an error message
       }
 }
-    // fetch(`/api/quick-transfer?limit=${limit}&offset=${offset}`)
-    //     .then((res) => res.json());

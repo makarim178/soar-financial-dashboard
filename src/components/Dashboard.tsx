@@ -7,6 +7,7 @@ import QuickTransfer from './dashboard/QuickTransfer';
 import { Suspense } from 'react';
 import DefaultLoader from './defaultLoader/DefaultLoader';
 import { QuickTransferProvider } from '../context/QuickTransferContext';
+import { TransactionType } from '../types';
 
 export default function Dashboard() {
   const transactions: TransactionType[] = [

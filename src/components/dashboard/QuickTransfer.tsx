@@ -5,6 +5,7 @@ import { useQuickTransfer } from '@/src/context/QuickTransferContext';
 import { fetchQuickTransferData } from '@/src/services/api-services';
 import Contact from '../contact/Contact';
 import QuickPay from '../quickPay/QuickPay';
+import { ContactType, QuickTransferDataType } from '@/src/types';
 
 
 export default function QuickTransfer() {
@@ -47,7 +48,7 @@ export default function QuickTransfer() {
     if (!hasMore) return;
     const offset = contacts.length;
     fetchQuickTransferData({ limit: 3, offset }).then(({ contacts, hasMore }: QuickTransferDataType) => {
-      setContacts(prev => [...prev, ...contacts]);
+      setContacts((prev: ContactType[]) => [...prev, ...contacts]);
       setHasMore(hasMore);
     });
   }
@@ -68,7 +69,7 @@ export default function QuickTransfer() {
       <div className={`flex flex-col justify-around bg-white rounded-3xl shadow p-6 min-h-[348px]`}>
         <div className="relative ">
           <div ref={scrollRef} className="flex overflow-x-auto h-full p-4 gap-6 scrollbar-hide scroll-smooth snap-x">
-              {contacts.map((contact) => (
+              {contacts.map((contact: ContactType) => (
                 <Contact 
                   key={contact.id} 
                   contact={contact} 

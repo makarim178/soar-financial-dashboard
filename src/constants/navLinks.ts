@@ -63,3 +63,21 @@ export const navLinks = [
       title: "Setting"
     },
   ];
+
+  export const settingsNavLinks = [
+    {
+      id: 1,
+      route: "/settings",
+      label: "Edit Profile",
+    },
+    {
+      id: 2,
+      route: "/settings/preferences",
+      label: "Preferences",
+    },
+    {
+      id: 3,
+      route: "/settings/security",
+      label: "Security",
+    },
+  ]

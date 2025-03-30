@@ -3,9 +3,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import DefaultLoader from '@Components/defaultLoader/DefaultLoader';
 import { useSidebar } from '@Context/SidebarContext';
+import ProfileImage from '@Components/profileImage/ProfileImage';
 
 const Topbar = () => {
     const { toggleSidebar, selectedLabel } = useSidebar();
+    
   return (
     <div className={`h-[100px] bg-white border-b border-[#E6EFF5] flex items-center justify-between px-4 md:px-6`}>    
         <div className="flex items-center">
@@ -39,7 +41,7 @@ const Topbar = () => {
             <Image src="/icons/bell-icon.svg" width={18} height={18} alt="notification-icon" />
         </div>
         <div className="w-12 h-12 rounded-full bg-soar-light-gray flex justify-center align-middle items-center cursor-pointer">
-            <Image src="https://avatar.iran.liara.run/public" width={50} height={50} alt="user-icon" />
+            <ProfileImage size={50} />
         </div>
       </div>
     </div>

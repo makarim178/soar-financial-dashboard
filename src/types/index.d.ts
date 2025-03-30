@@ -1,9 +1,16 @@
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+
 declare type IconProps = {
     className?: string;
     fill?: string;
     width?: number;
     height?: number;
 }
+
+declare type BalanceHistoryData = {
+    labels: string[];
+    balances: number[];
+  }
 
 declare type SidebarContextType = {
     isOpen: boolean;
@@ -92,4 +99,51 @@ declare type TransferDataType = {
     contactId: number;
     amount: number;
     date: string;
+}
+
+declare type SettingsNavType = {
+    id: number;
+    route: string;
+    label: string;
+}
+
+declare type UserContextType = {
+    userImageNumber: number;
+    setUserImageNumber: (userImageNumber: number) => void;
+}
+
+declare type InputPropType = {
+    name: string;
+    label: string;
+    placeholder: string;
+    type?: string;
+    register: UseFormRegister<FormFieldType>;
+    options?: object;
+    errors: FieldErrors<FormFieldType>
+}
+
+declare type FormFieldType = {
+    name: string;
+    userName: string;
+    email: string;
+    password: string;
+    dob: string;
+    presentAddress: string;
+    permanentAddress: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    profileImage: unknown;
+}
+
+declare type WeeklyActivityData = {
+  labels: string[];
+  deposits: number[];
+  withdrawals: number[];
+}
+
+declare type ExpenseStatisticsData = {
+    labels: string[];
+    percentages: number[];
+    colors: string[];
 }

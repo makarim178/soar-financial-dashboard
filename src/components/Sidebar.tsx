@@ -32,7 +32,7 @@ export default function Sidebar() {
         <nav className="mt-6">
           <ul>
             {navLinks.map((item, index) => {
-              const DynamicComponent = dynamic<IconProps>(() => import(`@/src/components/svgIcons/${item.component}`), {
+              const DynamicComponent = dynamic<IconProps>(() => import(`@Components/svgIcons/${item.component}`), {
                   ssr: false,
                   loading: () => <DefaultLoader />
                 });
@@ -41,7 +41,7 @@ export default function Sidebar() {
                   className="flex"
                 >
                   <div 
-                    className={`w-[6px] rounded-r-lg ${pathname == item.route ? 'bg-[#232323]' : 'bg-transparent'}`}
+                    className={`w-[6px] rounded-r-lg ${pathname == item.route ? 'bg-soar-dark' : 'bg-transparent'}`}
                   ></div>
                   <Link 
                     href={item.route}

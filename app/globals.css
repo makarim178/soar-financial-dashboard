@@ -13,6 +13,7 @@
   --trans-card: #FFF5D9;
   --trans-paypal: #E7EDFF;
   --trans-money: #DCFAF8;
+  --soar-border-gray: #DFEAF2;
   --title: #343C6A;
   --main: #F6F7FA;
 }
@@ -31,6 +32,7 @@
   --color-trans-paypal: var(--trans-paypal);
   --color-trans-money: var(--trans-money);
   --color-main: var(--main);
+  --color-soar-border-gray: var(--soar-border-gray);
 }
 
 @media (prefers-color-scheme: light) {
