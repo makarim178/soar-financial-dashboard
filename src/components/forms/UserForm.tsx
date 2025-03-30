@@ -70,23 +70,33 @@ const UserForm = () => {
     <form 
         className="flex flex-col items-center md:items-start md:flex-row justify-center w-full"
         onSubmit={handleSubmit(onSubmit)}
+        aria-label="User profile form"
+        noValidate
     >
         <div className="flex flex-col items-center">
-            <div className="relative flex justify-center p-6 cursor-pointer">
+            <div className="relative flex justify-center p-6 cursor-pointer" role="group" aria-label="Profile image selection">
                 <div className="w-[90px] h-[90px] rounded-full bg-soar-light-gray flex justify-center align-middle items-center cursor-pointer">
                     <ProfileImage size={120} />
                 </div>
                 <div className="absolute bottom-6 right-6 flex w-[30px] h-[30px] rounded-full bg-soar-dark justify-center items-center cursor-pointer">
-                    <Image src="/icons/edit-icon.svg" width={15} height={15} alt="edit-icon" />
+                    <Image src="/icons/edit-icon.svg" width={15} height={15} alt="Edit profile image" />
                 </div>
                 <div className="absolute bottom-6 cursor-pointer right-0 opacity-0 text-black w-[90px] h-[30px] flex justify-center items-center">
-                    <label htmlFor="profileImage" className="text-soar-light cursor-pointer" >Select Image</label>
-                    <input {...register('profileImage')} type="file" name="profileImage" id="profileImage" style={{display: 'none'}}/> 
+                    <label htmlFor="profileImage" className="text-soar-light cursor-pointer">Select Image</label>
+                    <input 
+                        {...register('profileImage')} 
+                        type="file" 
+                        name="profileImage" 
+                        id="profileImage" 
+                        style={{display: 'none'}}
+                        accept="image/*"
+                        aria-label="Upload profile image"
+                    /> 
                 </div>
             </div>
       </div>
 
-      <div className="w-full flex flex-col md:grid md:gap-6 md-grid-cols-2 p-4">
+      <div className="w-full flex flex-col md:grid md:gap-6 md:grid-cols-2 p-4" role="group" aria-label="User information fields">
         <TextInput
             name="name"
             label="Your Name"
@@ -102,7 +112,7 @@ const UserForm = () => {
             register={register} 
             options={{ required: "Please enter your username"}}
             errors={errors}
-            />
+        />
         <TextInput 
             name="email"
             label="Email"
@@ -139,8 +149,8 @@ const UserForm = () => {
                 }
             }}
             errors={errors}
-            />
-            <div className="w-full mb-4">
+        />
+        <div className="w-full mb-4">
             <label 
                 htmlFor="dob"
                 className="block mb-2 text-base font-medium text-soar-dark"
@@ -184,23 +194,25 @@ const UserForm = () => {
                                     onChange={(date) => {
                                         field.onChange(date ? date.valueOf() : null);
                                     }}
+                                    aria-label="Date of birth"
+                                    aria-invalid={fieldState.error ? "true" : "false"}
+                                    aria-describedby={fieldState.error ? "dob-error" : undefined}
+                                    id="dob"
                                 />
                             </Space>
 
-                            { fieldState.error && (
-                            <div className="flex items-center space-x-2">
+                            {fieldState.error && (
+                            <div className="flex items-center space-x-2" id="dob-error" role="alert">
                                 <div className="w-1 h-1 rounded-full bg-red-500 animate-pulse"></div>
                                 <span className="text-red-500 text-sm mt-1 capitalize">
                                     {fieldState.error ? fieldState.error?.message : ''}
-                                    {/* {typeof errors[name]?.message === 'string' ? errors[name]?.message : ''} */}
                                 </span>
                             </div>
-                        )}
+                            )}
                         </>
                     )
                 }}
-            >
-            </Controller>
+            />
         </div>
 
         <TextInput 
@@ -210,14 +222,14 @@ const UserForm = () => {
             register={register}
             options={{ required: "Please enter your present address"}}
             errors={errors}
-            />
+        />
         <TextInput 
             name="permanentAddress"
             label="Permanent Address"
             placeholder="e.g. San Jose, California, CA"
             register={register}
             errors={errors}
-            />
+        />
         <TextInput 
             name="city"
             label="city"
@@ -225,7 +237,7 @@ const UserForm = () => {
             register={register}
             options={{required: "Please enter your city"}}
             errors={errors}
-            />
+        />
         <TextInput 
             name="postalCode"
             label="Postal Code"
@@ -250,7 +262,11 @@ const UserForm = () => {
         />
         <div className="col-span-2 flex flex-col items-end">
           {submitStatus && (
-            <div className={`mb-4 p-3 rounded-lg w-full ${submitStatus.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+            <div 
+                className={`mb-4 p-3 rounded-lg w-full ${submitStatus.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                role="status"
+                aria-live="polite"
+            >
               {submitStatus.message}
             </div>
           )}
@@ -258,12 +274,12 @@ const UserForm = () => {
               className={`w-[190px] bg-soar-dark p-3 rounded-2xl text-white font-medium text-lg ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               type="submit"
               disabled={isSubmitting}
+              aria-busy={isSubmitting}
           >
               {isSubmitting ? 'Saving...' : 'Save'}
           </button>
         </div>
       </div>
-
     </form>
   )
 }
