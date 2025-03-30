@@ -1,6 +1,7 @@
 
 import { useMemo } from 'react';
 import Image from 'next/image';
+import { CardDataType } from '@/src/types';
 
 const BankCard = ({ card }: { card: CardDataType }) => {
   const textColor = useMemo(() => card.isDark ? 'text-white' : 'text-[#343C6A]', [card.isDark])

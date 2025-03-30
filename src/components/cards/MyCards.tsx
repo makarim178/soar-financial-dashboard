@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import BankCard from './bankCard/BankCard';
+import { CardDataType } from '@/src/types';
 
 export default function MyCards() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -44,7 +45,7 @@ export default function MyCards() {
         <Link href="/cards" className="text-title text-sm font-medium">See All</Link>
       </div>
       
-      <div className="relative" style={{ height: 'min(282px, 70vw)' }}>
+      <div className="relative">
         <div 
           ref={scrollRef}
           className="flex overflow-x-auto h-full pb-4 gap-4 scrollbar-hide snap-x"
