@@ -5,7 +5,7 @@ import BankCard from './bankCard/BankCard';
 import { CardDataType } from '@/src/types';
 import DefaultLoader from '../defaultLoader/DefaultLoader';
 import { getApiUrl } from '@/src/utils/getApiUrl';
-import createSuspenseResource from '@/src/utils/createSuspenseResource';
+import { useQuery } from '@tanstack/react-query';
 
 // Function to fetch card data
 const fetchCardData = async (): Promise<CardDataType[]> => {
@@ -20,13 +20,11 @@ const fetchCardData = async (): Promise<CardDataType[]> => {
 // Component that uses the data
 function CardContent() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  
-  const cardsResource = createSuspenseResource<CardDataType[]>(
-    fetchCardData,
-    'cardData'
-  ) as { read: () => CardDataType[] };
-  
-  const cards = cardsResource.read();
+
+  const { data: cards = [] } = useQuery({
+    queryKey: ['cardData'],
+    queryFn: fetchCardData,
+  });
 
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -45,20 +43,20 @@ function CardContent() {
     <>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-title">My Cards</h2>
-        <Link 
-          href="/credit-cards" 
+        <Link
+          href="/credit-cards"
           className="text-title text-sm font-medium hover:font-bold"
           aria-label="See all credit cards"
         >
           See All
         </Link>
       </div>
-      
+
       <div className="relative">
-        <div 
+        <div
           ref={scrollRef}
           className="flex overflow-x-auto h-full pb-4 gap-4 scrollbar-hide snap-x"
-          style={{ 
+          style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
             overflowY: 'hidden'

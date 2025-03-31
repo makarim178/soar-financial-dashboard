@@ -1,14 +1,14 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-
+import { ContactType, QuickTransferContextType } from '@/src/types';
 
 const QuickTransferContext = createContext<QuickTransferContextType | undefined>(undefined);
 
 export function QuickTransferProvider({ children }: { children: React.ReactNode }) {
   const [contacts, setContacts] = useState<ContactType[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [total, setTotal] = useState(0);    
+  const [total, setTotal] = useState(0);
 
   return (
     <QuickTransferContext.Provider

@@ -23,31 +23,47 @@ export async function initUsersDb() {
   return db;
 }
 
+// Define the user data type
+interface UserData {
+  name: string;
+  userName: string;
+  email: string;
+  password: string;
+  dob: string;
+  presentAddress: string;
+  permanentAddress?: string | null;
+  city: string;
+  postalCode: string;
+  country: string;
+  profileImage?: string | null;
+  createdAt?: string;
+}
+
 // User-related queries
-export async function createUser(userData: any) {
+export async function createUser(userData: UserData) {
   const db = await initUsersDb();
-  
+
   const result = await db.run(
     `INSERT INTO users (
-      name, userName, email, password, dob, presentAddress, 
+      name, userName, email, password, dob, presentAddress,
       permanentAddress, city, postalCode, country, profileImage, createdAt
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
-      userData.name, 
-      userData.userName, 
-      userData.email, 
-      userData.password, 
-      userData.dob, 
-      userData.presentAddress,
-      userData.permanentAddress, 
-      userData.city, 
-      userData.postalCode, 
-      userData.country, 
-      userData.profileImage,
-      userData.createdAt || new Date().toISOString()
+      userData?.name,
+      userData?.userName,
+      userData?.email,
+      userData?.password,
+      userData?.dob,
+      userData?.presentAddress,
+      userData?.permanentAddress,
+      userData?.city,
+      userData?.postalCode,
+      userData?.country,
+      userData?.profileImage,
+      userData?.createdAt || new Date().toISOString()
     ]
   );
-  
+
   return result;
 }
 

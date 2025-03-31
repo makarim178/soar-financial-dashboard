@@ -8,7 +8,7 @@ import { getChartData as getSpendingChartData, chartOptions } from './charts';
 import { WeeklyActivityData } from '@/src/types';
 import SectionCard from './sectionCard/SectionCard';
 import { getApiUrl } from '@/src/utils/getApiUrl';
-import createSuspenseResource from '@/src/utils/createSuspenseResource';
+import { useQuery } from '@tanstack/react-query';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -24,13 +24,11 @@ const fetchSpendingData = async (): Promise<WeeklyActivityData> => {
 
 // Component that uses the data
 function SpendingChartContent() {
-  const spendingResource = createSuspenseResource<WeeklyActivityData>(
-    fetchSpendingData,
-    'spendingChartData'
-  ) as { read: () => WeeklyActivityData };
-  
-  const spendingData = spendingResource.read();
-  
+  const { data: spendingData } = useQuery({
+    queryKey: ['spendingChartData'],
+    queryFn: fetchSpendingData,
+  });
+
   return (
     <div
       className="w-full h-[280px]"
@@ -38,7 +36,7 @@ function SpendingChartContent() {
       role="img"
     >
       <Bar
-        data={getSpendingChartData(spendingData)}
+        data={getSpendingChartData(spendingData!)}
         options={chartOptions}
       />
     </div>

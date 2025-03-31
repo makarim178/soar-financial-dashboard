@@ -5,12 +5,18 @@ import { usePathname } from 'next/navigation'
 import { settingsNavLinks } from '@Constants/navLinks';
 import React from 'react'
 
+interface SettingsNavItem {
+  id: number;
+  route: string;
+  label: string;
+}
+
 const SettingsNav = () => {
     const pathname = usePathname();
   return (
     <nav>
       <ul className='flex space-x-16 border-b-1 border-[#F4F5F7]'>
-            { settingsNavLinks.length > 0 && settingsNavLinks.map(({id, route, label}: SettingsNavType) => {
+            { settingsNavLinks.length > 0 && settingsNavLinks.map(({id, route, label}: SettingsNavItem) => {
                 const isActive = pathname === route;
                 return (
                     <li key={`${id}-${label}`} className='flex flex-col cursor-pointer' >
@@ -20,7 +26,7 @@ const SettingsNav = () => {
                         </Link>
                     </li>
                 )
-            }) 
+            })
          }
       </ul>
     </nav>
