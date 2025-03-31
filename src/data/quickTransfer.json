@@ -1,0 +1,60 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "name": "Livia Bator",
+      "position": "CEO",
+      "avatar": "https://avatar.iran.liara.run/public/1"
+    },
+    {
+      "id": 2,
+      "name": "Randy Press",
+      "position": "Director",
+      "avatar": "https://avatar.iran.liara.run/public/2"
+    },
+    {
+      "id": 3,
+      "name": "Workman",
+      "position": "Designer",
+      "avatar": "https://avatar.iran.liara.run/public/3"
+    },
+    {
+      "id": 4,
+      "name": "Sarah Johnson",
+      "position": "Developer",
+      "avatar": "https://avatar.iran.liara.run/public/4"
+    },
+    {
+      "id": 5,
+      "name": "Michael Chen",
+      "position": "Manager",
+      "avatar": "https://avatar.iran.liara.run/public/5"
+    }
+  ],
+  "transfers": [
+    {
+      "id": 1743154275661,
+      "contactId": 2,
+      "amount": 20,
+      "date": "2025-03-28T09:31:15.661Z"
+    },
+    {
+      "id": 1743154284616,
+      "contactId": 1,
+      "amount": 30,
+      "date": "2025-03-28T09:31:24.616Z"
+    },
+    {
+      "id": 1743240057541,
+      "contactId": 1,
+      "amount": 20,
+      "date": "2025-03-29T09:20:57.541Z"
+    },
+    {
+      "id": 1743241042248,
+      "contactId": 1,
+      "amount": 50,
+      "date": "2025-03-29T09:37:22.248Z"
+    }
+  ]
+}

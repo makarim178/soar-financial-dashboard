@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --foreground: #ffffff;
+  --soar-light: #B1B1B1;
+  --soar-dark: #232323;
+  --soar-light-gray: #F5F7FA;
+  --trans-pos: #41D4A8;
+  --trans-neg: #FF4B4A;
+  --trans-date: #718EBF;
+  --trans-card: #FFF5D9;
+  --trans-paypal: #E7EDFF;
+  --trans-money: #DCFAF8;
+  --soar-border-gray: #DFEAF2;
+  --title: #343C6A;
+  --main: #F6F7FA;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-soar-light: var(--soar-light);
+  --color-soar-dark: var(--soar-dark);
+  --color-trans-pos: var(--trans-pos);
+  --color-trans-neg: var(--trans-neg);
+  --color-trans-date: var(--trans-date);
+  --color-title: var(--title);
+  --color-soar-light-gray: var(--soar-light-gray);
+  --color-trans-card: var(--trans-card);
+  --color-trans-paypal: var(--trans-paypal);
+  --color-trans-money: var(--trans-money);
+  --color-main: var(--main);
+  --color-soar-border-gray: var(--soar-border-gray);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+}
