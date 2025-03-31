@@ -79,6 +79,7 @@ export default function BalanceHistoryChart() {
           </div>
         ) : balanceData ? (
           <div
+            className="h-full"
             aria-label="Line chart showing balance history over time"
             role="img"
           >
