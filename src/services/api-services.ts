@@ -1,8 +1,10 @@
 import { QTransferGetApiType } from "../types";
+import { getApiUrl } from "../utils/getApiUrl";
 
 export const fetchQuickTransferData = async ({ limit = 3, offset = 0 }: QTransferGetApiType) => {
     try {
-        const response = await fetch(`/api/quick-transfer?limit=${limit}&offset=${offset}`);
+        const apiUrl = getApiUrl();
+        const response = await fetch(`${apiUrl}/api/quick-transfer?limit=${limit}&offset=${offset}`);
         if (!response.ok) {
           throw new Error(`API returned ${response.status}: ${response.statusText}`);
         }

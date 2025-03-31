@@ -1,42 +1,32 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useRef, Suspense } from 'react';
 import Link from 'next/link';
 import BankCard from './bankCard/BankCard';
 import { CardDataType } from '@/src/types';
+import DefaultLoader from '../defaultLoader/DefaultLoader';
+import { getApiUrl } from '@/src/utils/getApiUrl';
+import createSuspenseResource from '@/src/utils/createSuspenseResource';
 
-export default function MyCards() {
+// Function to fetch card data
+const fetchCardData = async (): Promise<CardDataType[]> => {
+  const apiUrl = getApiUrl();
+  const response = await fetch(`${apiUrl}/api/cards`);
+  if (!response.ok) {
+    throw new Error(`API returned ${response.status}: ${response.statusText}`);
+  }
+  return await response.json();
+};
+
+// Component that uses the data
+function CardContent() {
   const scrollRef = useRef<HTMLDivElement>(null);
   
-  // Sample card data
-  const [cards] = useState<CardDataType[]>([
-    {
-      id: '1',
-      cardNumber: '3778 **** **** 1234',
-      cardHolder: 'Eddy Cusuma',
-      validThru: '12/22',
-      balance: '$5,756',
-      cardType: 'mastercard',
-      isDark: true
-    },
-    {
-      id: '2',
-      cardNumber: '3778 **** **** 1234',
-      cardHolder: 'Eddy Cusuma',
-      validThru: '12/22',
-      balance: '$5,756',
-      cardType: 'visa',
-      isDark: false
-    },
-    {
-      id: '3',
-      cardNumber: '3778 **** **** 1234',
-      cardHolder: 'Eddy Cusuma',
-      validThru: '12/22',
-      balance: '$5,756',
-      cardType: 'mastercard',
-      isDark: true
-    }
-  ]);
+  const cardsResource = createSuspenseResource<CardDataType[]>(
+    fetchCardData,
+    'cardData'
+  ) as { read: () => CardDataType[] };
+  
+  const cards = cardsResource.read();
 
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -52,7 +42,7 @@ export default function MyCards() {
   };
 
   return (
-    <div className="w-full">
+    <>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-title">My Cards</h2>
         <Link 
@@ -89,6 +79,20 @@ export default function MyCards() {
           Use arrow keys to navigate between cards
         </p>
       </div>
+    </>
+  );
+}
+
+export default function MyCards() {
+  return (
+    <div className="w-full">
+      <Suspense fallback={
+        <div className="h-[200px] flex items-center justify-center" aria-live="polite" aria-busy="true">
+          <DefaultLoader />
+        </div>
+      }>
+        <CardContent />
+      </Suspense>
     </div>
   );
 }

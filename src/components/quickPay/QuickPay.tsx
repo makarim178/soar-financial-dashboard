@@ -1,6 +1,9 @@
+'use client';
+
 import { useState } from "react";
 import Image from "next/image";
 import { ContactType } from "@/src/types";
+import { getApiUrl } from "@/src/utils/getApiUrl";
 
 const QuickPay = ({ selectedContact }: { selectedContact: ContactType | null }) => {
     const [amount, setAmount] = useState('');
@@ -9,19 +12,20 @@ const QuickPay = ({ selectedContact }: { selectedContact: ContactType | null }) 
 
     const handleTransfer = async () => {
         if (!selectedContact) {
-          throw new Error('Please select a contact');
+          console.error('Please select a contact');
           return;
         }
-        
+
         if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
-          throw new Error('Please enter a valid amount');
+          console.error('Please enter a valid amount');
           return;
         }
-        
+
         setIsSubmitting(true);
-        
+
         try {
-          const response = await fetch('/api/quick-transfer', {
+          const apiUrl = getApiUrl();
+          const response = await fetch(`${apiUrl}/api/quick-transfer`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -31,23 +35,23 @@ const QuickPay = ({ selectedContact }: { selectedContact: ContactType | null }) 
               amount: parseFloat(amount),
             }),
           });
-          
+
           if (!response.ok) {
             throw new Error(`API returned ${response.status}: ${response.statusText}`);
           }
-          
+
           const result = await response.json();
-    
+
           if (result.success) {
             setSuccess(true);
             setTimeout(() => {
               setSuccess(false);
             }, 3000);
           }
-          
+
           // Reset form
           setAmount('');
-          
+
           // Show success message or toast here if needed
         } catch (error) {
           console.error('Error submitting transfer:', error);
@@ -84,7 +88,7 @@ const QuickPay = ({ selectedContact }: { selectedContact: ContactType | null }) 
             </svg>
             </button>
         </div>
-        </div>          
+        </div>
             {success && <Image className='animate-pulse' src="/icons/tick-icon.svg" width={18} height={18} alt="tick-icon" />}
     </div>
   )

@@ -7,6 +7,7 @@ import { DatePicker, Space } from 'antd';
 import dayjs from "dayjs";
 import ProfileImage from "../profileImage/ProfileImage";
 import { useState } from "react";
+import { getApiUrl } from "@/src/utils/getApiUrl";
 
 const UserForm = () => {
     const { register, handleSubmit, formState: { errors }, control, reset } = useForm<FormFieldType>();
@@ -20,10 +21,10 @@ const UserForm = () => {
       try {
         setIsSubmitting(true);
         setSubmitStatus(null);
-        
+
         // Create FormData object to handle file upload
         const formData = new FormData();
-        
+
         // Add all form fields to FormData
         Object.entries(data).forEach(([key, value]) => {
           if (key === 'profileImage' && value instanceof FileList && value.length > 0) {
@@ -32,25 +33,26 @@ const UserForm = () => {
             formData.append(key, value.toString());
           }
         });
-        
+
         // Submit form data to API
-        const response = await fetch('/api/user', {
+        const apiUrl = getApiUrl();
+        const response = await fetch(`${apiUrl}/api/user`, {
           method: 'POST',
           body: formData,
         });
-        
+
         const result = await response.json();
-        
+
         if (!response.ok) {
           throw new Error(result.error || 'Failed to save user data');
         }
-        
+
         // Show success message
         setSubmitStatus({
           success: true,
           message: 'User profile saved successfully!'
         });
-        
+
         // Reset form
         reset();
       } catch (error) {
@@ -67,7 +69,7 @@ const UserForm = () => {
     const dateFormat = 'DD MMMM YYYY';
 
   return (
-    <form 
+    <form
         className="flex flex-col items-center md:items-start md:flex-row justify-center w-full"
         onSubmit={handleSubmit(onSubmit)}
         aria-label="User profile form"
@@ -83,15 +85,15 @@ const UserForm = () => {
                 </div>
                 <div className="absolute bottom-6 cursor-pointer right-0 opacity-0 text-black w-[90px] h-[30px] flex justify-center items-center">
                     <label htmlFor="profileImage" className="text-soar-light cursor-pointer">Select Image</label>
-                    <input 
-                        {...register('profileImage')} 
-                        type="file" 
-                        name="profileImage" 
-                        id="profileImage" 
+                    <input
+                        {...register('profileImage')}
+                        type="file"
+                        name="profileImage"
+                        id="profileImage"
                         style={{display: 'none'}}
                         accept="image/*"
                         aria-label="Upload profile image"
-                    /> 
+                    />
                 </div>
             </div>
       </div>
@@ -105,15 +107,15 @@ const UserForm = () => {
             options={{ required: "Please enter your name" }}
             errors={errors}
         />
-        <TextInput 
+        <TextInput
             name="userName"
             label="Username"
             placeholder="Please enter your username"
-            register={register} 
+            register={register}
             options={{ required: "Please enter your username"}}
             errors={errors}
         />
-        <TextInput 
+        <TextInput
             name="email"
             label="Email"
             placeholder="Please enter your email"
@@ -127,7 +129,7 @@ const UserForm = () => {
             }}
             errors={errors}
             />
-        <TextInput 
+        <TextInput
             name="password"
             label="Password"
             placeholder="Please enter your password"
@@ -151,7 +153,7 @@ const UserForm = () => {
             errors={errors}
         />
         <div className="w-full mb-4">
-            <label 
+            <label
                 htmlFor="dob"
                 className="block mb-2 text-base font-medium text-soar-dark"
             >
@@ -182,15 +184,15 @@ const UserForm = () => {
                                     name={field.name}
                                     onBlur={field.onBlur}
                                     style={{
-                                        width: '100%', 
-                                        height: '45px', 
-                                        borderRadius: '16px', 
-                                        border: `1px solid var(--soar-border-gray)`, 
-                                        padding: '12px', 
+                                        width: '100%',
+                                        height: '45px',
+                                        borderRadius: '16px',
+                                        border: `1px solid var(--soar-border-gray)`,
+                                        padding: '12px',
                                         color: 'var(--trans-date)',
-                                    }} 
+                                    }}
                                     format={dateFormat}
-                                    value={field.value ? dayjs(field.value) : null} 
+                                    value={field.value ? dayjs(field.value) : null}
                                     onChange={(date) => {
                                         field.onChange(date ? date.valueOf() : null);
                                     }}
@@ -215,7 +217,7 @@ const UserForm = () => {
             />
         </div>
 
-        <TextInput 
+        <TextInput
             name="presentAddress"
             label="Present Address"
             placeholder="e.g. San Jose, California, CA"
@@ -223,14 +225,14 @@ const UserForm = () => {
             options={{ required: "Please enter your present address"}}
             errors={errors}
         />
-        <TextInput 
+        <TextInput
             name="permanentAddress"
             label="Permanent Address"
             placeholder="e.g. San Jose, California, CA"
             register={register}
             errors={errors}
         />
-        <TextInput 
+        <TextInput
             name="city"
             label="city"
             placeholder="e.g. San Jose"
@@ -238,7 +240,7 @@ const UserForm = () => {
             options={{required: "Please enter your city"}}
             errors={errors}
         />
-        <TextInput 
+        <TextInput
             name="postalCode"
             label="Postal Code"
             placeholder="e.g. 45962"
@@ -252,7 +254,7 @@ const UserForm = () => {
             }}
             errors={errors}
             />
-        <TextInput 
+        <TextInput
             name="country"
             label="Country"
             placeholder="e.g. USA"
@@ -262,7 +264,7 @@ const UserForm = () => {
         />
         <div className="col-span-2 flex flex-col items-end">
           {submitStatus && (
-            <div 
+            <div
                 className={`mb-4 p-3 rounded-lg w-full ${submitStatus.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
                 role="status"
                 aria-live="polite"
@@ -270,8 +272,8 @@ const UserForm = () => {
               {submitStatus.message}
             </div>
           )}
-          <button 
-              className={`w-[190px] bg-soar-dark p-3 rounded-2xl text-white font-medium text-lg ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+          <button
+              className={`w-[190px] bg-soar-dark p-3 rounded-2xl text-white font-medium text-lg cursor-pointer ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               type="submit"
               disabled={isSubmitting}
               aria-busy={isSubmitting}

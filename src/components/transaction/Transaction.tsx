@@ -8,10 +8,10 @@ const Transaction = ( { transaction }: { transaction: TransactionType} ) => {
   return (
     <div
         key={id} 
-        className="flex items-center justify-between"
+        className="flex flex-nowrap items-center justify-between"
         tabIndex={0}
         >
-        <div className="flex space-x-4">
+        <div className="flex space-x-2 xl:space-x-4">
         <div
             className={`w-10 h-10 ${transactionSourceColors[source as keyof typeof transactionSourceColors]?.background ?? ''} rounded-full justify-center items-center cursor-pointer md:flex hidden`}
             aria-hidden="true"
@@ -23,7 +23,7 @@ const Transaction = ( { transaction }: { transaction: TransactionType} ) => {
             />
         </div>
         <div>
-            <p className="font-medium text-soar-dark">{description}</p>
+            <p className="w-[110px] xl:w-[160px] font-medium text-soar-dark overflow-hidden text-nowrap text-overflow text-ellipsis">{description}</p>
             <p className="text-sm text-trans-date">{date}</p>
         </div>
         </div>

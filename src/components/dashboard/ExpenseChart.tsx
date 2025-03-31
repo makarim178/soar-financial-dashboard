@@ -1,90 +1,68 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import DefaultLoader from '../defaultLoader/DefaultLoader';
-import { 
-  getExpenseChartData, 
-  expenseChartOptions, 
-  expenseChartPlugin 
+import {
+  getExpenseChartData,
+  expenseChartOptions,
+  expenseChartPlugin
 } from './charts';
 import { ExpenseStatisticsData } from '@/src/types';
 import SectionCard from './sectionCard/SectionCard';
+import { getApiUrl } from '@/src/utils/getApiUrl';
+import createSuspenseResource from '@/src/utils/createSuspenseResource';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+// Function to fetch expense data
+const fetchExpenseData = async (): Promise<ExpenseStatisticsData> => {
+  const apiUrl = getApiUrl();
+  const response = await fetch(`${apiUrl}/api/expense-statistics`);
+  if (!response.ok) {
+    throw new Error(`API returned ${response.status}: ${response.statusText}`);
+  }
+  return await response.json();
+};
+
+// Component that uses the data
+function ExpenseChartContent() {
+  const expenseResource = createSuspenseResource<ExpenseStatisticsData>(
+    fetchExpenseData,
+    'expenseChartData'
+  ) as { read: () => ExpenseStatisticsData };
+  
+  const expenseData = expenseResource.read();
+  
+  return (
+    <div
+      className="w-[280px] h-[280px]"
+      aria-label="Pie chart showing expense statistics breakdown"
+      role="img"
+    >
+      <Pie
+        data={getExpenseChartData(expenseData)}
+        options={expenseChartOptions}
+        plugins={[expenseChartPlugin]}
+      />
+    </div>
+  );
+}
+
 const ExpenseChart = () => {
-  const [expenseData, setExpenseData] = useState<ExpenseStatisticsData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/expense-statistics');
-        if (!response.ok) {
-          throw new Error(`API returned ${response.status}: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setExpenseData(data);
-      } catch (error) {
-        console.error('Error fetching expense statistics data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <SectionCard title="Expense Statistics">
       <div className="flex items-center justify-center">
-      {loading ? (
-          <div aria-live="polite" aria-busy="true">
+        <Suspense fallback={
+          <div className='h-[325px]' aria-live="polite" aria-busy="true">
             <DefaultLoader />
           </div>
-          ) : (
-            <div 
-            className="w-[280px] h-[280px]"
-            aria-label="Pie chart showing expense statistics breakdown"
-            role="img"
-            >
-            <Pie 
-              data={getExpenseChartData(expenseData)} 
-              options={expenseChartOptions} 
-              plugins={[expenseChartPlugin]} 
-              />
-          </div>
-        )}
+        }>
+          <ExpenseChartContent />
+        </Suspense>
       </div>
     </SectionCard>
-    // <div>
-    //   <h2 className="text-xl font-semibold mb-4 text-title" id="expense-chart-heading">Expense Statistics</h2>
-    //   <div 
-    //     className="relative bg-white min-h-[325px] min-w-[325px] rounded-3xl shadow p-6 flex items-center justify-center"
-    //     aria-labelledby="expense-chart-heading"
-    //     tabIndex={0}
-    //   >
-    //     {loading ? (
-    //       <div className="flex items-center justify-center" aria-live="polite" aria-busy="true">
-    //         <DefaultLoader />
-    //       </div>
-    //     ) : (
-    //       <div 
-    //         className="w-[280px] h-[280px]"
-    //         aria-label="Pie chart showing expense statistics breakdown"
-    //         role="img"
-    //       >
-    //         <Pie 
-    //           data={getExpenseChartData(expenseData)} 
-    //           options={expenseChartOptions} 
-    //           plugins={[expenseChartPlugin]} 
-    //         />
-    //       </div>
-    //     )}
-    //   </div>
-    // </div>
   );
 };
 
