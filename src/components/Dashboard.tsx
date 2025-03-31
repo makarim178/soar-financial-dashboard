@@ -42,19 +42,23 @@ export default function Dashboard() {
       
       <section aria-labelledby="cards-and-transactions-heading">
         <h2 id="cards-and-transactions-heading" className="sr-only">Cards and Recent Transactions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <MyCards />
-          <TransactionHistory transactions={transactions} />
+        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-6">
+          <div className='lg:col-span-7'>
+            <MyCards />
+          </div>
+          <div className='lg:col-span-5'>
+            <TransactionHistory transactions={transactions} />
+          </div>
         </div>
       </section>
       
       <section aria-labelledby="charts-heading">
         <h2 id="charts-heading" className="sr-only">Financial Charts</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-7">
             <SpendingChart />
           </div>
-          <div>
+          <div className="lg:col-span-5">
             <ExpenseChart />
           </div>
         </div>
@@ -62,19 +66,19 @@ export default function Dashboard() {
       
       <section aria-labelledby="transfers-and-balance-heading">
         <h2 id="transfers-and-balance-heading" className="sr-only">Transfers and Balance History</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6">
-          <div className="md:col-span-1 lg:col-span-5">
-            <Suspense fallback={
-              <div aria-live="polite" aria-busy="true">
-                <DefaultLoader />
-              </div>
-            }>
-              <QuickTransferProvider>
-                <QuickTransfer />
-              </QuickTransferProvider>
-            </Suspense>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-5">
+            <QuickTransferProvider>
+              <Suspense fallback={
+                <div aria-live="polite" aria-busy="true">
+                  <DefaultLoader />
+                </div>
+              }>
+                  <QuickTransfer />
+              </Suspense>
+            </QuickTransferProvider>
           </div>
-          <div className="md:col-span-2 lg:col-span-7">
+          <div className="lg:col-span-7">
             <BalanceHistoryChart />
           </div>
         </div>

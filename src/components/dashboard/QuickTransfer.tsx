@@ -6,6 +6,7 @@ import { fetchQuickTransferData } from '@/src/services/api-services';
 import Contact from '../contact/Contact';
 import QuickPay from '../quickPay/QuickPay';
 import { ContactType, QuickTransferDataType } from '@/src/types';
+import SectionCard from './sectionCard/SectionCard';
 
 
 export default function QuickTransfer() {
@@ -64,10 +65,8 @@ export default function QuickTransfer() {
   }
 
   return (
-    <div className="min-h[326px]">
-      <h3 className="text-xl font-semibold mb-4 text-title">Quick Transfer</h3>
-      <div className={`flex flex-col justify-around bg-white rounded-3xl shadow p-6 min-h-[348px]`}>
-        <div className="relative ">
+    <SectionCard title="Quick Transfer">
+      <div className="relative ">
           <div ref={scrollRef} className="flex overflow-x-auto h-full p-4 gap-6 scrollbar-hide scroll-smooth snap-x">
               {contacts.map((contact: ContactType) => (
                 <Contact 
@@ -93,7 +92,37 @@ export default function QuickTransfer() {
           </button>
         </div>
         <QuickPay selectedContact={selectedContact} />
-      </div>      
-    </div>
+    </SectionCard>
+    // <div>
+    //   <h3 className="text-xl font-semibold mb-4 text-title">Quick Transfer</h3>
+    //   <div className={`flex flex-col justify-around bg-white rounded-3xl shadow p-6 min-h-[348px]`}>
+    //     <div className="relative ">
+    //       <div ref={scrollRef} className="flex overflow-x-auto h-full p-4 gap-6 scrollbar-hide scroll-smooth snap-x">
+    //           {contacts.map((contact: ContactType) => (
+    //             <Contact 
+    //               key={contact.id} 
+    //               contact={contact} 
+    //               selectedContactId={selectedContact?.id || 0} 
+    //               setSelectedContact={setSelectedContact} 
+    //             />
+    //           ))}
+    //       </div>
+    //       <button 
+    //         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full w-10 h-10 shadow-md flex items-center justify-center"
+    //         onClick={handleNavigation}
+    //       >
+    //         <svg 
+    //           xmlns="http://www.w3.org/2000/svg" 
+    //           className={`h-6 w-6 text-[#718EBF] transform ${rotateChevron ? 'rotate-180' : ''}`} 
+    //           fill="none" viewBox="0 0 24 24" 
+    //           stroke="currentColor"
+    //         >
+    //           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+    //         </svg>
+    //       </button>
+    //     </div>
+    //     <QuickPay selectedContact={selectedContact} />
+    //   </div>      
+    // </div>
   );
 }

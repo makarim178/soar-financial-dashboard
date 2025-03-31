@@ -17,6 +17,7 @@ import {
 import { BalanceHistoryData } from '@/src/types';
 import DefaultLoader from '../defaultLoader/DefaultLoader';
 import { getBalanceChartData, balanceChartOptions } from './charts';
+import SectionCard from './sectionCard/SectionCard';
 
 // Register ChartJS components
 ChartJS.register(
@@ -54,21 +55,14 @@ export default function BalanceHistoryChart() {
   }, []);
 
   return (
-    <div>
-      <h3 className="text-xl font-semibold mb-4 text-title" id="balance-history-heading">Balance History</h3>
-      <div 
-        className="bg-white min-h-[325px] rounded-3xl shadow p-6"
-        tabIndex={0}
-        role="region"
-        aria-labelledby="balance-history-heading"
-      >
-        {loading ? (
+    <SectionCard title="Balance History">
+      {loading ? (
           <div className="h-full flex items-center justify-center" aria-live="polite" aria-busy="true">
             <DefaultLoader />
           </div>
         ) : (
           <div 
-            className="h-[300px]"
+            className="h-[230px]"
             aria-label="Line chart showing balance history over time"
             role="img"
           >
@@ -78,7 +72,32 @@ export default function BalanceHistoryChart() {
             />
           </div>
         )}
-      </div>
-    </div>
+    </SectionCard>
+    // <div>
+    //   <h3 className="text-xl font-semibold mb-4 text-title" id="balance-history-heading">Balance History</h3>
+    //   <div 
+    //     className="bg-white min-h-[325px] rounded-3xl shadow p-6"
+    //     tabIndex={0}
+    //     role="region"
+    //     aria-labelledby="balance-history-heading"
+    //   >
+    //     {loading ? (
+    //       <div className="h-full flex items-center justify-center" aria-live="polite" aria-busy="true">
+    //         <DefaultLoader />
+    //       </div>
+    //     ) : (
+    //       <div 
+    //         className="h-[300px]"
+    //         aria-label="Line chart showing balance history over time"
+    //         role="img"
+    //       >
+    //         <Line 
+    //           data={getBalanceChartData(data)} 
+    //           options={balanceChartOptions} 
+    //         />
+    //       </div>
+    //     )}
+    //   </div>
+    // </div>
   );
 }

@@ -10,6 +10,7 @@ import {
   expenseChartPlugin 
 } from './charts';
 import { ExpenseStatisticsData } from '@/src/types';
+import SectionCard from './sectionCard/SectionCard';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -37,32 +38,53 @@ const ExpenseChart = () => {
   }, []);
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4 text-title" id="expense-chart-heading">Expense Statistics</h2>
-      <div 
-        className="relative bg-white min-h-[325px] min-w-[325px] rounded-3xl shadow p-6 flex items-center justify-center"
-        aria-labelledby="expense-chart-heading"
-        tabIndex={0}
-      >
-        {loading ? (
-          <div className="flex items-center justify-center" aria-live="polite" aria-busy="true">
+    <SectionCard title="Expense Statistics">
+      <div className="flex items-center justify-center">
+      {loading ? (
+          <div aria-live="polite" aria-busy="true">
             <DefaultLoader />
           </div>
-        ) : (
-          <div 
+          ) : (
+            <div 
             className="w-[280px] h-[280px]"
             aria-label="Pie chart showing expense statistics breakdown"
             role="img"
-          >
+            >
             <Pie 
               data={getExpenseChartData(expenseData)} 
               options={expenseChartOptions} 
               plugins={[expenseChartPlugin]} 
-            />
+              />
           </div>
         )}
       </div>
-    </div>
+    </SectionCard>
+    // <div>
+    //   <h2 className="text-xl font-semibold mb-4 text-title" id="expense-chart-heading">Expense Statistics</h2>
+    //   <div 
+    //     className="relative bg-white min-h-[325px] min-w-[325px] rounded-3xl shadow p-6 flex items-center justify-center"
+    //     aria-labelledby="expense-chart-heading"
+    //     tabIndex={0}
+    //   >
+    //     {loading ? (
+    //       <div className="flex items-center justify-center" aria-live="polite" aria-busy="true">
+    //         <DefaultLoader />
+    //       </div>
+    //     ) : (
+    //       <div 
+    //         className="w-[280px] h-[280px]"
+    //         aria-label="Pie chart showing expense statistics breakdown"
+    //         role="img"
+    //       >
+    //         <Pie 
+    //           data={getExpenseChartData(expenseData)} 
+    //           options={expenseChartOptions} 
+    //           plugins={[expenseChartPlugin]} 
+    //         />
+    //       </div>
+    //     )}
+    //   </div>
+    // </div>
   );
 };
 

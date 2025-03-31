@@ -52,7 +52,7 @@ export default function MyCards() {
   };
 
   return (
-    <div className="w-full max-w-[730px] mx-auto md:col-span-2">
+    <div className="w-full">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-title">My Cards</h2>
         <Link 
