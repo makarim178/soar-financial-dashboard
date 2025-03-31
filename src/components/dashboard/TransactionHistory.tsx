@@ -4,9 +4,9 @@ import { Suspense } from "react";
 import { TransactionType } from "@/src/types";
 import Transaction from "../transaction/Transaction";
 import SectionCard from "./sectionCard/SectionCard";
-import createSuspenseResource from "@/src/utils/createSuspenseResource";
 import { getApiUrl } from "@/src/utils/getApiUrl";
 import RecentTransactionLoader from "../loaders/RecentTransactionLoader";
+import { useQuery } from "@tanstack/react-query";
 
 // Function to fetch transactions
 const fetchTransactions = async (): Promise<TransactionType[]> => {
@@ -28,17 +28,15 @@ const fetchTransactions = async (): Promise<TransactionType[]> => {
 
 // Component that uses the data
 function TransactionList() {
-  const transactionsResource = createSuspenseResource<TransactionType[]>(
-    fetchTransactions,
-    'transactions'
-  ) as { read: () => TransactionType[] };
-
-  const transactions = transactionsResource.read();
+  const { data: transactions = [] } = useQuery({
+    queryKey: ['transactions'],
+    queryFn: fetchTransactions,
+  });
 
   return (
     <div className="lg:px-0 xl:px-2 py-3 space-y-4">
-      {transactions.length > 0 ? (
-        transactions.map((transaction: TransactionType) => (
+      {transactions && transactions?.length > 0 ? (
+        transactions?.map((transaction: TransactionType) => (
           <Transaction transaction={transaction} key={transaction.id} />
         ))
       ) : (

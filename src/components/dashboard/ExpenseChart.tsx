@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import DefaultLoader from '../defaultLoader/DefaultLoader';
@@ -12,7 +12,6 @@ import {
 import { ExpenseStatisticsData } from '@/src/types';
 import SectionCard from './sectionCard/SectionCard';
 import { getApiUrl } from '@/src/utils/getApiUrl';
-import createSuspenseResource from '@/src/utils/createSuspenseResource';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -28,12 +27,43 @@ const fetchExpenseData = async (): Promise<ExpenseStatisticsData> => {
 
 // Component that uses the data
 function ExpenseChartContent() {
-  const expenseResource = createSuspenseResource<ExpenseStatisticsData>(
-    fetchExpenseData,
-    'expenseChartData'
-  ) as { read: () => ExpenseStatisticsData };
+  const [expenseData, setExpenseData] = useState<ExpenseStatisticsData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   
-  const expenseData = expenseResource.read();
+  useEffect(() => {
+    let isMounted = true;
+    
+    fetchExpenseData()
+      .then(data => {
+        if (isMounted) {
+          setExpenseData(data);
+          setIsLoading(false);
+        }
+      })
+      .catch(err => {
+        if (isMounted) {
+          setError(err);
+          setIsLoading(false);
+        }
+      });
+      
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+  
+  if (isLoading) {
+    return <DefaultLoader />;
+  }
+  
+  if (error) {
+    return <div>Error loading expense data: {error.message}</div>;
+  }
+  
+  if (!expenseData) {
+    return <div>No expense data available</div>;
+  }
   
   return (
     <div
@@ -54,13 +84,7 @@ const ExpenseChart = () => {
   return (
     <SectionCard title="Expense Statistics">
       <div className="flex items-center justify-center">
-        <Suspense fallback={
-          <div className='h-[325px]' aria-live="polite" aria-busy="true">
-            <DefaultLoader />
-          </div>
-        }>
-          <ExpenseChartContent />
-        </Suspense>
+        <ExpenseChartContent />
       </div>
     </SectionCard>
   );

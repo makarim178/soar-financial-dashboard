@@ -1,28 +1,52 @@
-import { InputPropType } from "@/src/types"
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-const TextInput = ({ 
+interface FormFieldType {
+  name: string;
+  userName: string;
+  email: string;
+  password: string;
+  dob: string;
+  presentAddress: string;
+  permanentAddress: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  profileImage: unknown;
+}
+
+interface InputPropType {
+  name: keyof FormFieldType;
+  label: string;
+  placeholder: string;
+  type?: string;
+  register: UseFormRegister<FormFieldType>;
+  options?: object;
+  errors: FieldErrors<FormFieldType>;
+}
+
+const TextInput = ({
     name,
-    label, 
-    placeholder, 
-    type = 'text', 
-    register, 
-    options = {}, 
-    errors 
+    label,
+    placeholder,
+    type = 'text',
+    register,
+    options = {},
+    errors
 }: InputPropType) => {
   return (
         <div className="w-full mb-4">
-            <label 
-                htmlFor={name} 
+            <label
+                htmlFor={name}
                 className="block mb-2 text-base font-medium text-soar-dark"
             >
                 {label}
             </label>
-            <input 
+            <input
                 {...(register ? register(name, options) : {})}
                 type={type}
                 id={name}
                 className="border border-soar-border-gray rounded-2xl text-trans-date block w-full p-2.5 font-[Inter] text-base focus:outline-none focus:ring-0 focus:shadow-sm focus:shadow-(var(--trans-date))"
-                placeholder={placeholder} 
+                placeholder={placeholder}
             />
             {errors && errors[name] && (
                 <div className="flex items-center space-x-2">

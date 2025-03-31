@@ -1,53 +1,53 @@
-// A cache to store resources by key
-const resourceCache = new Map<string, unknown>();
-
 /**
- * Creates a suspense-compatible resource for data fetching
- * @param fetchFn The async function that fetches data
- * @param cacheKey A unique key to identify this resource in the cache
- * @returns A resource with a read method that works with React Suspense
+ * Creates a resource that can be used with React Suspense for data fetching
+ * @param fetchFn - The async function that fetches data
+ * @param cacheKey - Optional key for caching the result
+ * @returns A resource object with a read method
  */
 export default function createSuspenseResource<T>(
   fetchFn: () => Promise<T>,
-  cacheKey: string
+  cacheKey?: string
 ) {
-  // Return cached resource if it exists
-  if (resourceCache.has(cacheKey)) {
-    return resourceCache.get(cacheKey);
-  }
+  // Use a simple cache to avoid refetching
+  const cache = new Map<string, T>();
   
-  // Create a new resource
-  let status = 'pending';
-  let result: unknown;
+  // Track the promise state
+  let status: 'pending' | 'success' | 'error' = 'pending';
+  let result: T;
+  let error: Error;
   
-  const promise = fetchFn()
-    .then(data => {
+  // Start the fetch immediately
+  const promise = fetchFn().then(
+    (data: T) => {
       status = 'success';
       result = data;
-    })
-    .catch(error => {
-      status = 'error';
-      result = error;
-    });
-  
-  const resource = {
-    read(): T {
-      if (status === 'pending') {
-        throw promise;
-      } else if (status === 'error') {
-        throw result;
-      } else {
-        return result as T;
+      if (cacheKey) {
+        cache.set(cacheKey, data);
       }
     },
-    // Optional method to invalidate the cache
-    invalidate() {
-      resourceCache.delete(cacheKey);
+    (e: Error) => {
+      status = 'error';
+      error = e;
+    }
+  );
+  
+  // Return a resource object with a read method
+  return {
+    read(): T {
+      // If we've already cached this data, return it immediately
+      if (cacheKey && cache.has(cacheKey)) {
+        return cache.get(cacheKey) as T;
+      }
+      
+      // Handle the different states
+      switch (status) {
+        case 'pending':
+          throw promise; // This tells React to suspend
+        case 'error':
+          throw error; // This tells React to show the error boundary
+        case 'success':
+          return result;
+      }
     }
   };
-  
-  // Store in cache
-  resourceCache.set(cacheKey, resource);
-  
-  return resource;
 }

@@ -1,11 +1,18 @@
 import Image from 'next/image';
 import { useMemo } from 'react';
+import { ContactType } from '@/src/types';
 
-const Contact = ({ contact, selectedContactId, setSelectedContact } : ContactPropsType ) => {
+interface ContactProps {
+  contact: ContactType;
+  selectedContactId: number;
+  setSelectedContact: (contact: ContactType) => void;
+}
+
+const Contact = ({ contact, selectedContactId, setSelectedContact }: ContactProps) => {
     const { id, name, position, avatar } = contact;
     const isSelected = useMemo(() => selectedContactId === id, [selectedContactId, id]);
   return (
-    <div 
+    <div
         className={`flex flex-col items-center cursor-pointer ${
           isSelected ? 'opacity-100' : 'opacity-70'
         }`}
@@ -14,11 +21,11 @@ const Contact = ({ contact, selectedContactId, setSelectedContact } : ContactPro
         <div className={`w-18 h-18 rounded-full overflow-hidden mb-3 ${
         isSelected ? 'ring-2 ring-blue-500' : ''
         }`}>
-        <Image 
-            src={avatar} 
-            alt={name} 
-            width={70} 
-            height={70} 
+        <Image
+            src={avatar}
+            alt={name}
+            width={70}
+            height={70}
             className="object-cover w-full h-full"
         />
         </div>

@@ -1,5 +1,12 @@
 import { fillIconColor } from "@Utils/helper";
 
+interface IconProps {
+  fill?: string;
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
 const AccountIcon = ({ fill="light", width = 17.5, height = 17.5 }: IconProps) => {
   return (
     <svg width={width} height={height} viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

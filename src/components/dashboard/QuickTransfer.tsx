@@ -5,15 +5,10 @@ import { useQuickTransfer } from '@/src/context/QuickTransferContext';
 import { fetchQuickTransferData } from '@/src/services/api-services';
 import Contact from '../contact/Contact';
 import QuickPay from '../quickPay/QuickPay';
-import { ContactType, QuickTransferDataType } from '@/src/types';
+import { ContactType } from '@/src/types';
 import SectionCard from './sectionCard/SectionCard';
-import createSuspenseResource from '@/src/utils/createSuspenseResource';
 import QuickTransferLoader from '../loaders/QuickTransferLoader';
-
-// Function to fetch contacts
-const fetchContacts = async (limit = 3, offset = 0): Promise<QuickTransferDataType> => {
-  return fetchQuickTransferData({ limit, offset });
-};
+import { useQuery } from '@tanstack/react-query';
 
 // Component that uses the data
 function ContactsList({ setSelectedContact, selectedContact }: { 
@@ -24,17 +19,15 @@ function ContactsList({ setSelectedContact, selectedContact }: {
   const [rotateChevron, setRotateChevron] = useState(false);
   const { contacts, setContacts, setHasMore } = useQuickTransfer();
   
-  const contactsResource = createSuspenseResource<QuickTransferDataType>(
-    () => fetchContacts(),
-    'quickTransferContacts'
-  ) as { read: () => QuickTransferDataType };
-
-  const { contacts: initialContacts, hasMore: initialHasMore } = contactsResource.read();
+  const { data } = useQuery({
+    queryKey: ['quickTransferContacts'],
+    queryFn: () => fetchQuickTransferData({ limit: 3, offset: 0 }),
+  });
   
   // Set initial contacts if not already set
-  if (contacts?.length === 0 && initialContacts?.length > 0) {
-    setContacts(initialContacts);
-    setHasMore(initialHasMore);
+  if (contacts && contacts?.length === 0 && data?.contacts?.length > 0) {
+    if (data?.contacts) setContacts(data.contacts);
+    if (data?.hasMore) setHasMore(data.hasMore);
   }
 
   const handleNavigation = () => {

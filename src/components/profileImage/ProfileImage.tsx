@@ -8,6 +8,7 @@ const ProfileImage = ({ size = 50 }: { size: number }) => {
     const { userImageNumber, setUserImageNumber } = useUser();
     useEffect(() => {
       setUserImageNumber(Math.floor(Math.random() * 10) + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userImageNumber])
     
   return (

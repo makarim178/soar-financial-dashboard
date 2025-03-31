@@ -1,3 +1,4 @@
+import { IconProps } from "@/src/types"
 import { fillIconColor } from "@Utils/helper"
 
 const LoanIcon = ({ fill="light", width = 17.5, height = 17.5 }: IconProps) => {
