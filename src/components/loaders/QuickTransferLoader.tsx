@@ -1,7 +1,7 @@
 const QuickTransferLoader = () => {
   return (
     <div className="flex flex-col animate-pulse p-4 justify-between gap-8">
-        <div className="flex h-[100px] justify-between">
+        <div className="flex h-[100px] justify-between space-x-6">
             <div className='w-[100px] bg-trans-card rounded-full'></div>
             <div className='w-[100px] bg-trans-money rounded-full'></div>
             <div className='w-[100px] bg-trans-paypal rounded-full'></div>
