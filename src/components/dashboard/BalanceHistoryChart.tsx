@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -17,6 +17,9 @@ import {
 import { BalanceHistoryData } from '@/src/types';
 import DefaultLoader from '../defaultLoader/DefaultLoader';
 import { getBalanceChartData, balanceChartOptions } from './charts';
+import SectionCard from './sectionCard/SectionCard';
+import { getApiUrl } from '@/src/utils/getApiUrl';
+import createSuspenseResource from '@/src/utils/createSuspenseResource';
 
 // Register ChartJS components
 ChartJS.register(
@@ -30,43 +33,49 @@ ChartJS.register(
   Legend
 );
 
-export default function BalanceHistoryChart() {
-  const [data, setData] = useState<BalanceHistoryData | null>(null);
-  const [loading, setLoading] = useState(true);
+// Function to fetch balance history data
+const fetchBalanceHistory = async (): Promise<BalanceHistoryData> => {
+  const apiUrl = getApiUrl();
+  const response = await fetch(`${apiUrl}/api/balance-history`);
+  if (!response.ok) {
+    throw new Error(`API returned ${response.status}: ${response.statusText}`);
+  }
+  return await response.json();
+};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/balance-history');
-        if (!response.ok) {
-          throw new Error(`API returned ${response.status}: ${response.statusText}`);
-        }
-        const historyData = await response.json();
-        setData(historyData);
-      } catch (error) {
-        console.error('Error fetching balance history data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+// Component that uses the data
+function BalanceHistoryContent() {
+  const balanceResource = createSuspenseResource<BalanceHistoryData>(
+    fetchBalanceHistory,
+    'balanceHistoryData'
+  ) as { read: () => BalanceHistoryData };
+  
+  const data = balanceResource.read();
+  
   return (
-    <div>
-      <h3 className="text-xl font-semibold mb-4 text-title">Balance History</h3>
-      <div className="bg-white min-h-[325px] rounded-3xl shadow p-6">
-        {loading ? (
-          <div className="h-full flex items-center justify-center">
-            <DefaultLoader />
-          </div>
-        ) : (
-          <div className="h-[300px]">
-            <Line data={getBalanceChartData(data)} options={balanceChartOptions} />
-          </div>
-        )}
-      </div>
+    <div
+      className="h-[230px]"
+      aria-label="Line chart showing balance history over time"
+      role="img"
+    >
+      <Line
+        data={getBalanceChartData(data)}
+        options={balanceChartOptions}
+      />
     </div>
+  );
+}
+
+export default function BalanceHistoryChart() {
+  return (
+    <SectionCard title="Balance History">
+      <Suspense fallback={
+        <div className="h-[275px] flex items-center justify-center" aria-live="polite" aria-busy="true">
+          <DefaultLoader />
+        </div>
+      }>
+        <BalanceHistoryContent />
+      </Suspense>
+    </SectionCard>
   );
 }
