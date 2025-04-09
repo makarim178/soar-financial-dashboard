@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation';
 import { navLinks } from '@Constants/navLinks';
 import { useEffect } from 'react';
 import DefaultLoader from '@Components/defaultLoader/DefaultLoader';
-import SoarIcon from '@Components/svgIcons/SoarIcon';
 import { useSidebar } from '@Context/SidebarContext';
 import { IconProps } from '../types';
+import { SiWebmoney } from 'react-icons/si';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -31,8 +31,8 @@ export default function Sidebar() {
         aria-hidden={!isOpen ? "true" : "false"}
       >
         <div className="h-[100px] flex items-center p-6">
-          <SoarIcon fill='dark' width={35} height={35} aria-hidden="true" />
-          <h1 className="text-2xl text-title font-extrabold pl-[10px]">Soar Task</h1>
+          <SiWebmoney fill="dark" width={60} height={60} aria-hidden="true" />
+          <h1 className="text-2xl text-title font-extrabold pl-[10px]">Fin Task</h1>
         </div>
         <nav className="mt-6" aria-label="Main menu">
           <ul role="menu">
