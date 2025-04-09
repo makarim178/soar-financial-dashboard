@@ -21,13 +21,13 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Soar Financial Dashboard",
+  title: "Financial Dashboard",
   description: "A comprehensive financial dashboard for managing accounts, transactions, and financial analytics",
   keywords: ["financial dashboard", "banking", "transactions", "finance management", "account tracking", "Next.js", "React"],
-  authors: [{ name: "Soar Financial Team" }],
-  creator: "Soar Financial",
-  publisher: "Soar Financial",
-  applicationName: "Soar Financial Dashboard",
+  authors: [{ name: "Financial Team" }],
+  creator: "Financial",
+  publisher: "Financial",
+  applicationName: "Financial Dashboard",
   category: "Finance",
   robots: {
     index: true,
@@ -40,28 +40,28 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://soar-financial.example.com",
-    title: "Soar Financial Dashboard",
+    url: "https://financial.example.com",
+    title: "Financial Dashboard",
     description: "A comprehensive financial dashboard for managing accounts, transactions, and financial analytics",
-    siteName: "Soar Financial Dashboard",
+    siteName: "Financial Dashboard",
     images: [
       {
-        url: "https://soar-financial.example.com/og-image.jpg",
+        url: "https://financial.example.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Soar Financial Dashboard Preview",
+        alt: "Financial Dashboard Preview",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Soar Financial Dashboard",
+    title: "Financial Dashboard",
     description: "A comprehensive financial dashboard for managing accounts, transactions, and financial analytics",
-    creator: "@soarfinancial",
-    images: ["https://soar-financial.example.com/twitter-image.jpg"],
+    creator: "@financial",
+    images: ["https://financial.example.com/twitter-image.jpg"],
   },
   appleWebApp: {
-    title: "Soar Financial",
+    title: "Financial",
     statusBarStyle: "black-translucent",
     capable: true,
   },
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     email: true,
     url: true,
   },
-  metadataBase: new URL("https://soar-financial.example.com"),
+  metadataBase: new URL("https://mirdev--financial-dashboard.vercel.app/"),
 };
 
 export default function RootLayout({
